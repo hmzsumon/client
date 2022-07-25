@@ -9,7 +9,7 @@ import { depositRequest, reset } from '../../redux/deposit/depositSlice';
 import CopyBtn from '../Reusable/CopyBtn';
 
 const depositOptions = [
-  { id: 1, name: 'Bkash', number: '01617412044', value: 'bkash', type: 'p' },
+  { id: 1, name: 'Bkash', number: '01981387695', value: 'bkash', type: 'p' },
   {
     id: 2,
     name: 'Rocket',
