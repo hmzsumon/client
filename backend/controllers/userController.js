@@ -810,3 +810,79 @@ exports.getPlacement2 = catchAsyncErrors(async (req, res, next) => {
     secondGens,
   });
 });
+
+// ==========================================================================================
+// =======================Forgot Password========================
+
+exports.forgotPassword = catchAsyncErrors(async (req, res, next) => {
+  const user = await User.findOne({ email: req.body.email });
+
+  if (!user) {
+    return next(new ErrorHander('User not found', 404));
+  }
+
+  // Get ResetPassword Token
+  const resetToken = user.getResetPasswordToken();
+
+  await user.save({ validateBeforeSave: false });
+
+  const resetPasswordUrl = `${req.protocol}://${req.get(
+    'host'
+  )}/password/reset/${resetToken}`;
+
+  const message = `Your password reset token is :- \n\n ${resetPasswordUrl} \n\nIf you have not requested this email then, please ignore it.`;
+
+  try {
+    await sendEmail({
+      email: user.email,
+      subject: `Ecommerce Password Recovery`,
+      message,
+    });
+
+    res.status(200).json({
+      success: true,
+      message: `Email sent to ${user.email} successfully`,
+    });
+  } catch (error) {
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpire = undefined;
+
+    await user.save({ validateBeforeSave: false });
+
+    return next(new ErrorHander(error.message, 500));
+  }
+});
+
+// update User password
+exports.updatePasswordAdmin = catchAsyncErrors(async (req, res, next) => {
+  const userId = req.params.id;
+
+  const user = await User.findById(userId).select('+password');
+  if (!user) {
+    return next(new ErrorHandler('User not found', 400));
+  }
+
+  // const isPasswordMatched = await user.comparePassword(req.body.oldPassword);
+
+  // if (!isPasswordMatched) {
+  //   return next(new ErrorHandler('Old password is incorrect', 400));
+  // }
+
+  // if (req.body.newPassword !== req.body.confirmPassword) {
+  //   return next(new ErrorHandler('password does not match', 400));
+  // }
+
+  // // check password same as old password
+  // if (req.body.newPassword === req.body.oldPassword) {
+  //   return next(new ErrorHandler('New password is same as old password', 400));
+  // }
+
+  user.password = req.body.newPassword;
+
+  await user.save();
+
+  res.status(200).json({
+    success: true,
+    message: 'Password updated successfully',
+  });
+});

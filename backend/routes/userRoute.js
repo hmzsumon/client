@@ -21,6 +21,7 @@ const {
   getPlacement1,
   getPlacement2,
   getGenerationsLength,
+  updatePasswordAdmin,
 } = require('../controllers/userController');
 
 const { isAuthenticatedUser } = require('../middleware/auth');
@@ -84,5 +85,8 @@ router
 // get placement 1st generation
 router.route('/placement1').get(isAuthenticatedUser, getPlacement1);
 router.route('/placement2').get(isAuthenticatedUser, getPlacement2);
+
+// update user password admin
+router.route('/update-password-admin/:id').put(updatePasswordAdmin);
 
 module.exports = router;

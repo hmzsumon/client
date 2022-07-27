@@ -5,11 +5,7 @@ import {
 } from 'react-icons/ai';
 import { BsHeadset, BsListTask } from 'react-icons/bs';
 import { FaUsers } from 'react-icons/fa';
-import {
-  MdOutlineDashboard,
-  MdOutlineDescription,
-  MdSend,
-} from 'react-icons/md';
+import { MdOutlineDashboard, MdOutlineDescription } from 'react-icons/md';
 import { VscReferences } from 'react-icons/vsc';
 
 const sideMenuItems = [
@@ -44,12 +40,12 @@ const sideMenuItems = [
     icon: <AiOutlineUpload />,
     path: '/withdraw',
   },
-  {
-    id: 4,
-    name: 'Send',
-    icon: <MdSend />,
-    path: '/send',
-  },
+  // {
+  //   id: 4,
+  //   name: 'Send',
+  //   icon: <MdSend />,
+  //   path: '/send',
+  // },
 
   {
     id: 7,
