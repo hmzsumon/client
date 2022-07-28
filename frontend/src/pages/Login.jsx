@@ -29,7 +29,7 @@ const Login = () => {
   };
 
   const {
-    user,
+    updatedUser: user,
     isLoading,
     isAuthenticated,
     isError,
@@ -40,6 +40,14 @@ const Login = () => {
   const redirect = location.search
     ? location.search.split('=')[1]
     : '/dashboard';
+
+  // user status is suspended
+  useEffect(() => {
+    if (user && user.status === 'suspended') {
+      toast.error('Your account has been suspended');
+      history.push('/suspend');
+    }
+  }, [user, history]);
 
   useEffect(() => {
     if (isError) {

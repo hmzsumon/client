@@ -29,6 +29,7 @@ import Login from './pages/Login';
 import NotFound from './pages/NotFound';
 import Referral from './pages/Referral';
 import Register from './pages/Register';
+import Suspend from './pages/Suspend';
 import { loadUser } from './redux/auth/authSlice';
 
 function App() {
@@ -59,6 +60,7 @@ function App() {
       <Switch>
         <Route exact path='/' component={Login} />
         <Route exact path='/register' component={Register} />
+        <Route exact path='/suspend' component={Suspend} />
 
         <ProtectedRoute exact path='/dashboard' component={Dashboard} />
         <ProtectedRoute exact path='/user/profile' component={Profile} />
