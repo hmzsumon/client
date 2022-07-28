@@ -15,12 +15,14 @@ function DashboardCard02() {
           <h2 className='text-lg font-semibold text-slate-800 mb-2'>
             Income Wallet
           </h2>
-          <NavLink
-            to='/upgrade'
-            className='bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded'
-          >
-            Upgrade
-          </NavLink>
+          {updatedUser.status === 'active' && (
+            <NavLink
+              to='/upgrade'
+              className='bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded'
+            >
+              Upgrade
+            </NavLink>
+          )}
         </div>
 
         <div className='grid grid-cols-2  gap-4 items-center justify-center'>
