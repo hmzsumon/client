@@ -19,33 +19,87 @@
 
     <title>E-Group Work</title>
     <style>
-      .loading {
-        -webkit-animation: sk-scaleout 1s infinite ease-in-out;
-        animation: sk-scaleout 1s infinite ease-in-out;
-        background-color: #124c62;
-        border-radius: 100%;
-        height: 6em;
-        width: 6em;
-      }
-
-      .container {
-        align-items: center;
-        background-color: white;
+      .wrapper {
         display: flex;
-        height: 100vh;
+        flex-direction: column;
+        align-items: center;
         justify-content: center;
-        width: 100vw;
+        height: 100vh;
       }
-
-      @keyframes sk-scaleout {
-        0% {
-          -webkit-transform: scale(0);
-          transform: scale(0);
+      .wrapper h1 {
+        font-size: 1.2rem;
+        margin-bottom: 2rem;
+        color: #464646;
+      }
+      .loader {
+        width: 50px;
+        height: 50px;
+        margin: 50px auto 0;
+        transform: rotate(45deg);
+        position: relative;
+        animation: animate 1.5s infinite;
+      }
+      .loader div {
+        background-color: #f5f5f5;
+        width: 25px;
+        height: 25px;
+        float: left;
+      }
+      .loader div:nth-child(1) {
+        animation: animate_1 1.5s infinite;
+      }
+      .loader div:nth-child(2) {
+        animation: animate_2 1.5s infinite;
+      }
+      .loader div:nth-child(3) {
+        animation: animate_3 1.5s infinite;
+      }
+      .loader div:nth-child(4) {
+        animation: animate_4 1.5s infinite;
+      }
+      @keyframes animate {
+        100% {
+          transform: rotate(-135deg);
+        }
+      }
+      @keyframes animate_1 {
+        25% {
+          background-color: #2ecc71;
+          transform: translate(0, -50px) rotate(-180deg);
         }
         100% {
-          -webkit-transform: scale(1);
-          opacity: 0.5;
-          transform: scale(1);
+          background-color: #f5f5f5;
+          transform: translate(0, 0) rotate(-180deg);
+        }
+      }
+      @keyframes animate_2 {
+        25% {
+          background-color: #3498db;
+          transform: translate(50px, 0) rotate(-180deg);
+        }
+        100% {
+          background-color: #f5f5f5;
+          transform: translate(0, 0) rotate(-180deg);
+        }
+      }
+      @keyframes animate_3 {
+        25% {
+          background-color: #9b59b6;
+          transform: translate(-50px, 0) rotate(-180deg);
+        }
+        100% {
+          background-color: #f5f5f5;
+          transform: translate(0, 0) rotate(-180deg);
+        }
+      }
+      @keyframes animate_4 {
+        25% {
+          background-color: #e74c3c;
+          transform: translate(0, 50px) rotate(-180deg);
+        }
+        100% {
+          background-color: #f5f5f5;
+          transform: translate(0, 0) rotate(-180deg);
         }
       }
     </style>
@@ -53,8 +107,14 @@
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root">
-      <div id="spinner" class="container">
-        <div class="loading"></div>
+      <div class="wrapper">
+        <h1>Please Wait...</h1>
+        <div class="loader">
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
       </div>
     </div>
   </body>
