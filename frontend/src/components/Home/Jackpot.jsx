@@ -15,7 +15,7 @@ const Jackpot = () => {
               </h2>
               <p className='text-gray-700 px-2 md:w-1/3 mx-auto'>
                 Choose from the Powerball, Mega Millions, Lotto or Lucky Day
-                Lotto and try for a chance to win a big cash prize
+                Lotto and try for a chance to win a big cash prize 100
               </p>
             </div>
           </div>
