@@ -10,24 +10,6 @@ const crypto = require('crypto');
 exports.seedAgent = catchAsyncErrors(async (req, res, next) => {
   const newUsers = await User.create(
     {
-      userName: 'upwork1',
-      role: 'agent',
-      password: 'Su112200',
-      email: 'zakaria@gmail.com',
-      phoneNumber: '0123456789',
-      firstName: 'Agent1',
-      lastName: 'One',
-      fullName: 'Agent1 One',
-      country: 'Bangladesh',
-      address: 'Dhaka',
-      city: 'Dhaka',
-      state: 'Dhaka',
-      agentBalance: 0.0,
-      agentCommission: 0.0,
-      agentWB: 0.0,
-      zip: '1234',
-    },
-    {
       userName: 'upwork2',
       role: 'agent',
       password: 'Su112200',
