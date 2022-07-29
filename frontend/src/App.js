@@ -13,7 +13,7 @@ import FirstGeneration from './components/dashboard/Gen/FistGen';
 import Generation from './components/dashboard/Gen/Generation';
 import SecondGeneration from './components/dashboard/Gen/SecondGen';
 
-import Lottery from './components/dashboard/Lottery';
+// import Lottery from './components/dashboard/Lottery';
 import SendMoney from './components/dashboard/SendMOney';
 import Support from './components/dashboard/Support';
 import Tnx from './components/dashboard/Tnx';
@@ -69,7 +69,6 @@ function App() {
         <ProtectedRoute exact path='/upgrade' component={Upgrade} />
         <ProtectedRoute exact path='/deposit/history' component={DepositList} />
         <ProtectedRoute exact path='/deposit/history' component={DepositList} />
-        <ProtectedRoute exact path='/dashboard/lottery' component={Lottery} />
 
         <ProtectedRoute exact path='/transactions' component={Tnx} />
         <ProtectedRoute exact path='/support' component={Support} />
