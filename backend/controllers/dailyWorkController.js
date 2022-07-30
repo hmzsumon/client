@@ -339,7 +339,10 @@ module.exports.getDailyWorks = catchAsyncErrors(async (req, res, next) => {
   });
 });
 
-// update logged in user's tasksLimit
+//====================================================================================
+//=================== update logged in user's tasksLimit by daily works ==============
+//====================================================================================
+
 module.exports.updateTasksLimit = catchAsyncErrors(async (req, res, next) => {
   const user = await User.findById(req.user._id);
   if (!user) {
@@ -357,18 +360,24 @@ module.exports.updateTasksLimit = catchAsyncErrors(async (req, res, next) => {
   // );
   // console.log('newValue', newValue);
 
-  if (user.tasksLimit === 1) {
-    const numValue = Number(Math.floor(user.incomeBalance));
-    const newValue = Number(
-      Math.floor((numValue * 0.036) / user.packageTaskLimit)
-    );
-    user.isCompleted = true;
-    user.usrTaskValue = newValue;
-  }
+  // if (user.tasksLimit === 1) {
+  //   // update user taskValue
+  //   const numValue = Number(Math.floor(user.incomeBalance + user.usrTaskValue));
+  //   const newValue = Number((numValue * 0.036) / user.packageTaskLimit).toFixed(
+  //     2
+  //   );
+  //   user.isCompleted = true;
+  //   user.usrTaskValue = Number(newValue);
+  //   console.log(
+  //     'newValue',
+  //     newValue,
+  //     user.incomeBalance,
+  //     typeof user.usrTaskValue
+  //   );
+  // }
 
   if (user.tasksLimit > 0) {
     user.tasksLimit = user.tasksLimit - 1;
-    console.log('user.tasksLimit', user.tasksLimit);
     // update user's dailyIncomeBalance
     user.dailyIncomeBalance += user.usrTaskValue;
     user.incomeBalance += user.usrTaskValue;
@@ -417,6 +426,8 @@ module.exports.updateTasksLimit = catchAsyncErrors(async (req, res, next) => {
       '2nd_gen'
     );
     await parent.save();
+
+    console.log('sponsor', sponsor.userName, 'parent', parent.userName);
   }
 
   res.status(200).json({

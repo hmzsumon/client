@@ -60,17 +60,22 @@ const DailyWorks = () => {
                   </div>
                 </div>
               ) : (
-                <div className='grid grid-cols-12 gap-6'>
-                  {dailyWorks &&
-                    dailyWorks.map((task, index) => {
-                      return (
-                        <DailyWork
-                          key={index}
-                          task={task}
-                          taskValue={usrTaskValue}
-                        />
-                      );
-                    })}
+                <div className='space-y-4'>
+                  <h2 className='text-gray-800 text-xl font-medium'>
+                    Total Tasks: {tasksLimit}
+                  </h2>
+                  <div className='grid grid-cols-12 gap-6'>
+                    {dailyWorks &&
+                      dailyWorks.map((task, index) => {
+                        return (
+                          <DailyWork
+                            key={index}
+                            task={task}
+                            taskValue={usrTaskValue}
+                          />
+                        );
+                      })}
+                  </div>
                 </div>
               )}
             </>

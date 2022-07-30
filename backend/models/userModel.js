@@ -126,7 +126,19 @@ const userSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
-
+    //total
+    totalWithdraw: {
+      type: Number,
+      default: 0,
+    },
+    withdrawCount: {
+      type: Number,
+      default: 0,
+    },
+    totalDeposit: {
+      type: Number,
+      default: 0,
+    },
     // agent options
     agentName: {
       type: String,

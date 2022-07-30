@@ -71,6 +71,10 @@ const WithdrawSchema = new Schema(
     approvedAt: {
       type: Date,
     },
+    numberOfWithdraw: {
+      type: Number,
+      default: 0,
+    },
     approvedBy: {
       type: Schema.Types.ObjectId,
       ref: 'User',

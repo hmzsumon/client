@@ -862,21 +862,6 @@ exports.updatePasswordAdmin = catchAsyncErrors(async (req, res, next) => {
     return next(new ErrorHandler('User not found', 400));
   }
 
-  // const isPasswordMatched = await user.comparePassword(req.body.oldPassword);
-
-  // if (!isPasswordMatched) {
-  //   return next(new ErrorHandler('Old password is incorrect', 400));
-  // }
-
-  // if (req.body.newPassword !== req.body.confirmPassword) {
-  //   return next(new ErrorHandler('password does not match', 400));
-  // }
-
-  // // check password same as old password
-  // if (req.body.newPassword === req.body.oldPassword) {
-  //   return next(new ErrorHandler('New password is same as old password', 400));
-  // }
-
   user.password = req.body.newPassword;
 
   await user.save();
