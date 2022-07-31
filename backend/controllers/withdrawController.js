@@ -79,6 +79,7 @@ module.exports.withdrawRequest = catchAsyncErrors(async (req, res, next) => {
     method,
     status: 'pending',
     numberOfWithdraw: user.withdrawCount + 1,
+    remainingBalance: user.incomeBalance - amount,
   });
   // update user balance
   user.incomeBalance -= amount;

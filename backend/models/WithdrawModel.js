@@ -88,6 +88,10 @@ const WithdrawSchema = new Schema(
     approveTnxId: {
       type: String,
     },
+    remainingBalance: {
+      type: Number,
+      default: 0,
+    },
   },
   {
     timestamps: true,

@@ -30,6 +30,7 @@ const agent = require('./routes/agentRoute');
 const dailyWork = require('./routes/dailyWorkRoute');
 const tnx = require('./routes/tnxRoute');
 const package = require('./routes/packageRoute');
+const payMethod = require('./routes/payMethodRoute');
 
 app.use('/api/v1', users);
 app.use('/api/v1', deposits);
@@ -40,6 +41,7 @@ app.use('/api/v1', agent);
 app.use('/api/v1', dailyWork);
 app.use('/api/v1', tnx);
 app.use('/api/v1', package);
+app.use('/api/v1', payMethod);
 
 app.use(express.static(path.join(__dirname, '../frontend/build')));
 

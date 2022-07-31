@@ -1,39 +1,44 @@
+import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { FaRegCopy } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, useHistory } from 'react-router-dom';
 import { PulseLoader } from 'react-spinners';
 import { toast } from 'react-toastify';
+import useSWR from 'swr';
 import DashboardLayout from '../../components/layouts/DashboardLayout';
 import { depositRequest, reset } from '../../redux/deposit/depositSlice';
 import CopyBtn from '../Reusable/CopyBtn';
 
-const depositOptions = [
-  {
-    id: 1,
-    name: 'Bkash-1',
-    number: '01985229406',
-    value: 'bkash-1',
-    type: 'p',
-  },
-  {
-    id: 2,
-    name: 'Bkash-2',
-    number: '01617412044',
-    value: 'bkash-2',
-    type: 'p',
-  },
-  {
-    id: 2,
-    name: 'Rocket',
-    number: '01981387695-5',
-    value: 'rocket',
-    type: 'p',
-  },
-  { id: 4, name: 'Nagad', number: '01617412044', value: 'nagad2', type: 'p' },
-];
+// const depositOptions = [
+//   {
+//     id: 1,
+//     name: 'Bkash-1',
+//     number: '01985229406',
+//     value: 'bkash-1',
+//     type: 'p',
+//   },
+//   {
+//     id: 2,
+//     name: 'Bkash-2',
+//     number: '01617412044',
+//     value: 'bkash-2',
+//     type: 'p',
+//   },
+//   {
+//     id: 2,
+//     name: 'Rocket',
+//     number: '01981387695-5',
+//     value: 'rocket',
+//     type: 'p',
+//   },
+//   { id: 4, name: 'Nagad', number: '01617412044', value: 'nagad2', type: 'p' },
+// ];
 
 const Deposit = () => {
+  const fetcher = async (...args) => await axios.get(...args);
+  const { data } = useSWR('/api/v1/all/pay-method', fetcher);
+
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -43,30 +48,27 @@ const Deposit = () => {
 
   const { isAuthenticated } = useSelector((state) => state.auth);
 
-  const [method, setMethod] = useState('');
+  const [method, setMethod] = useState({});
+
   const [amount, setAmount] = useState(0);
   const [, setBdtAmount] = useState(0);
   const [userNumber, setUserNumber] = useState('');
-  const [selectedMethod, setSelectedMethod] = useState(null);
+
   const [transactionId, setTransactionId] = useState('');
   const [open, setOpen] = useState(false);
 
   const [inputErrors, setInputErrors] = useState({});
 
-  console.log(inputErrors.method);
-
   // handle select method
-  const handleSelectMethod = (e) => {
-    const selectMethod = depositOptions.find(
-      (item) => item.value === e.target.value
-    );
-    setSelectedMethod(selectMethod);
-    setMethod(e.target.value);
+  const handleSelectMethod = async (e) => {
+    await axios.get(`/api/v1/pay-method/${e.target.value}`).then((res) => {
+      setMethod(res.data.data);
+    });
   };
 
   const handleOpen = () => {
     setInputErrors(validate({ method, amount }));
-    if (!selectedMethod) {
+    if (!method) {
       toast.error('Please select a method');
       return;
     }
@@ -77,15 +79,15 @@ const Deposit = () => {
     e.preventDefault();
 
     const myForm = new FormData();
-    myForm.set('method', method);
+    myForm.set('method', method.name);
     myForm.set('amount', amount);
     myForm.set('accountNumber', userNumber);
     myForm.set('transactionId', transactionId);
-    myForm.set('bdtAmount', amount * 85);
+    myForm.set('bdtAmount', amount);
 
-    // for (let key of myForm.entries()) {
-    //   console.log(key[0] + ', ' + key[1]);
-    // }
+    for (let key of myForm.entries()) {
+      console.log(key[0] + ', ' + key[1]);
+    }
     dispatch(depositRequest(myForm));
   };
 
@@ -195,9 +197,9 @@ const Deposit = () => {
                       onChange={(e) => handleSelectMethod(e)}
                     >
                       <option value='DEFAULT'>Choose a Method</option>
-                      {depositOptions.map((option) => (
-                        <option key={option.id} value={option.value}>
-                          {option.name}
+                      {data?.data?.payMethods.map((method) => (
+                        <option key={method._id} value={method._id}>
+                          {method.name}
                         </option>
                       ))}
                     </select>
@@ -233,7 +235,7 @@ const Deposit = () => {
                         >
                           Please Send Money to this Personal Account{' '}
                           <span className='text-orange-400'>
-                            {selectedMethod.number}{' '}
+                            {method.accountNumber}{' '}
                           </span>
                           Number.
                         </label>
@@ -242,13 +244,13 @@ const Deposit = () => {
                             type='text'
                             name='confirmPassword'
                             className='border-0 disabled:cursor-not-allowed px-3 py-3 placeholder-gray-300 text-gray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150'
-                            value={selectedMethod.number}
+                            value={method.accountNumber}
                             readOnly
                             disabled
                           />
                           <span className=' absolute right-3 top-3'>
                             <CopyBtn
-                              text={selectedMethod.number}
+                              text={method.accountNumber}
                               icon={<FaRegCopy />}
                             />
                           </span>
@@ -306,11 +308,7 @@ const Deposit = () => {
                     type='submit'
                     className='bg-blue-500 flex justify-center items-center hover:bg-blue-700 text-white font-bold py-2 px-4 rounded disabled:bg-red-400  disabled:cursor-not-allowed'
                     disabled={
-                      !amount ||
-                      !selectedMethod ||
-                      !userNumber ||
-                      !transactionId ||
-                      isLoading
+                      !amount || !userNumber || !transactionId || isLoading
                     }
                     onClick={submitHandler}
                   >
