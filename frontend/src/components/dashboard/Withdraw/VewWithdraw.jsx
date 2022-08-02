@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { TbCurrencyTaka } from 'react-icons/tb';
 import Moment from 'react-moment';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
@@ -140,9 +141,12 @@ const Approved = () => {
                     <li
                       type='text'
                       name='userNumber'
-                      className='list-none border-0 px-3 py-3 placeholder-gray-300 text-gray-400 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150'
+                      className='flex items-center list-none border-0 px-3 py-3 placeholder-gray-300 text-gray-400 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150'
                     >
-                      {withdraw && withdraw.amount}$
+                      {withdraw && withdraw.amount}
+                      <span>
+                        <TbCurrencyTaka />
+                      </span>
                     </li>
                   </div>
                 </div>
@@ -158,9 +162,12 @@ const Approved = () => {
                     <li
                       type='text'
                       name='userNumber'
-                      className='list-none border-0 px-3 py-3 placeholder-gray-300 text-gray-400 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150'
+                      className='flex items-center list-none border-0 px-3 py-3 placeholder-gray-300 text-gray-400 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150'
                     >
-                      {withdraw && withdraw.withdrawCharge}$
+                      {withdraw && withdraw.withdrawCharge}
+                      <span>
+                        <TbCurrencyTaka />
+                      </span>
                     </li>
                   </div>
                 </div>
@@ -177,9 +184,12 @@ const Approved = () => {
                     <li
                       type='text'
                       name='userNumber'
-                      className='list-none border-0 px-3 py-3 placeholder-gray-300 text-gray-400 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150'
+                      className='flex items-center list-none border-0 px-3 py-3 placeholder-gray-300 text-gray-400 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150'
                     >
-                      {withdraw && withdraw.netAmount} $
+                      {withdraw && withdraw.netAmount}
+                      <span>
+                        <TbCurrencyTaka />
+                      </span>
                     </li>
                   </div>
                 </div>
