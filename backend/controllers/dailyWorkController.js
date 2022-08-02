@@ -360,21 +360,17 @@ module.exports.updateTasksLimit = catchAsyncErrors(async (req, res, next) => {
   // );
   // console.log('newValue', newValue);
 
-  // if (user.tasksLimit === 1) {
-  //   // update user taskValue
-  //   const numValue = Number(Math.floor(user.incomeBalance + user.usrTaskValue));
-  //   const newValue = Number((numValue * 0.036) / user.packageTaskLimit).toFixed(
-  //     2
-  //   );
-  //   user.isCompleted = true;
-  //   user.usrTaskValue = Number(newValue);
-  //   console.log(
-  //     'newValue',
-  //     newValue,
-  //     user.incomeBalance,
-  //     typeof user.usrTaskValue
-  //   );
-  // }
+  if (user.tasksLimit === 1) {
+    // update user taskValue
+
+    user.isCompleted = true;
+    user.totalWorkingDays += 1;
+    // console.log(
+    //   'days',
+
+    //   user.totalWorkingDays
+    // );
+  }
 
   if (user.tasksLimit > 0) {
     user.tasksLimit = user.tasksLimit - 1;

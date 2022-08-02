@@ -85,6 +85,7 @@ exports.buyPackage = catchAsyncErrors(async (req, res, next) => {
   user.usrTaskValue = package.packageTaskValue;
   user.tasksLimit = package.tasksLimit;
   user.packageName = package.name;
+  user.packagePrice = package.price;
   user.userHasPackage = true;
   await user.save();
 

@@ -135,7 +135,20 @@ const userSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
+    lastWithdrawDate: {
+      type: Date,
+      default: Date.now,
+    },
+    lastWithdrawAmount: {
+      type: Number,
+      default: 0,
+    },
     totalDeposit: {
+      type: Number,
+      default: 0,
+    },
+
+    totalWorkingDays: {
       type: Number,
       default: 0,
     },
@@ -268,6 +281,9 @@ const userSchema = new mongoose.Schema(
     },
     packageName: {
       type: String,
+    },
+    packagePrice: {
+      type: Number,
     },
     packageStartDate: {
       type: Date,
