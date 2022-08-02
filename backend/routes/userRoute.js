@@ -22,6 +22,7 @@ const {
   getPlacement2,
   getGenerationsLength,
   updatePasswordAdmin,
+  testTwilio,
 } = require('../controllers/userController');
 
 const { isAuthenticatedUser } = require('../middleware/auth');
@@ -88,5 +89,8 @@ router.route('/placement2').get(isAuthenticatedUser, getPlacement2);
 
 // update user password admin
 router.route('/update-password-admin/:id').put(updatePasswordAdmin);
+
+// test twilio
+router.route('/test-twilio').get(testTwilio);
 
 module.exports = router;

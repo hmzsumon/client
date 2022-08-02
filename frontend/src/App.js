@@ -19,7 +19,7 @@ import Support from './components/dashboard/Support';
 import Tnx from './components/dashboard/Tnx';
 import Upgrade from './components/dashboard/Upgrade/Upgrade';
 import AgentWithdraws from './components/dashboard/Withdraw/AgentWithdraws';
-import Approved from './components/dashboard/Withdraw/Approved';
+import VewWithdraw from './components/dashboard/Withdraw/VewWithdraw';
 import Withdraw from './components/dashboard/Withdraw/Withdraw';
 import Withdraws from './components/dashboard/Withdraw/Withdraws';
 import ProtectedRoute from './components/Route/ProtectedRoute';
@@ -90,7 +90,11 @@ function App() {
           path='/agent/withdraws'
           component={AgentWithdraws}
         />
-        <ProtectedRoute exact path='/withdraw/edit/:id' component={Approved} />
+        <ProtectedRoute
+          exact
+          path='/withdraw/edit/:id'
+          component={VewWithdraw}
+        />
 
         {/* Not Found */}
         <Route component={NotFound} />

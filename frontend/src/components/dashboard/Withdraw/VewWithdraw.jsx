@@ -2,72 +2,64 @@ import { useEffect, useState } from 'react';
 import Moment from 'react-moment';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
-import { PulseLoader } from 'react-spinners';
-import { toast } from 'react-toastify';
-import {
-  approveWithdraw,
-  getWithdraw,
-  reset,
-} from '../../../redux/withdraw/withdrawSlice';
+import { RingLoader } from 'react-spinners';
+import { getWithdraw } from '../../../redux/withdraw/withdrawSlice';
 import DashboardLayout from '../../layouts/DashboardLayout';
 
 const Approved = () => {
   const { id } = useParams();
   const history = useHistory();
   const dispatch = useDispatch();
-  const { withdraw, isLoading, appError, appLoading, appSuccess, appMessage } =
-    useSelector((state) => state.withdraw);
+  const { withdraw, isLoading } = useSelector((state) => state.withdraw);
 
   const [accountNumber, setAccountNumber] = useState('');
   const [tnxId, setTnxId] = useState('');
+
+  // handle go back
+  const handleBack = () => {
+    history.goBack();
+  };
 
   useEffect(() => {
     dispatch(getWithdraw(id));
   }, [id, dispatch]);
 
-  // submit handler
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const myForm = new FormData();
-    myForm.set('approvedAccountNumber', accountNumber);
-    myForm.set('approveTnxId', tnxId);
-    myForm.set('withdrawId', id);
-
-    for (let value of myForm.values()) {
-      console.log(value);
-    }
-    dispatch(approveWithdraw(myForm));
-  };
-
-  useEffect(() => {
-    if (appError) {
-      toast.error(appMessage);
-    }
-    if (appSuccess) {
-      toast.success(appMessage);
-      history.goBack();
-    }
-    dispatch(reset());
-  }, [withdraw, appError, appSuccess, appMessage, history, dispatch]);
-
   return (
     <DashboardLayout>
       {isLoading ? (
         <div>
-          <h1>Loading...</h1>
+          <div className='flex items-center justify-center w-full h-screen'>
+            <RingLoader color={'#36D7B7'} size={100} />
+          </div>
         </div>
       ) : (
         <div className='relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-gray-100 border-0'>
           <div className='rounded-t bg-white mb-0 px-6 py-6'>
+            <div>
+              <small
+                className='font-semibold text-blue-800 cursor-pointer hover:text-blue-600'
+                onClick={handleBack}
+              >
+                &#8592; Go Back
+              </small>
+            </div>
             <div className='text-center flex justify-between'>
               <h6 className='text-gray-700 text-xl font-bold'>
                 Withdraw Details
               </h6>
             </div>
+
+            {withdraw && withdraw.status === 'cancelled' && (
+              <div className='text-center mt-4  flex justify-between'>
+                <h6 className=' text-sm text-red-500  capitalize font-bold'>
+                  {withdraw.status}: {withdraw.cancelDescription}
+                </h6>
+              </div>
+            )}
           </div>
           <div className='flex-auto px-4 lg:px-10 py-10 pt-0'>
             {/* edit form */}
-            <form onSubmit={handleSubmit}>
+            <form>
               <h6 className='text-gray-400 text-sm mt-3 mb-6 font-bold uppercase'>
                 User Info
               </h6>
@@ -193,7 +185,7 @@ const Approved = () => {
                 </div>
 
                 {/* Amount BDT */}
-                <div className='w-full lg:w-6/12 px-4'>
+                {/* <div className='w-full lg:w-6/12 px-4'>
                   <div className='relative w-full mb-3'>
                     <label
                       className='block   text-sm font-semibold mb-2'
@@ -209,7 +201,7 @@ const Approved = () => {
                       {withdraw && withdraw.netAmount * 85} BDT
                     </li>
                   </div>
-                </div>
+                </div> */}
 
                 {/* Dtae */}
                 <div className='w-full lg:w-6/12 px-4'>
@@ -340,22 +332,6 @@ const Approved = () => {
               </div>
 
               <hr className='mt-6 border-b-1 border-gray-300' />
-
-              <div className='px-4 mt-6'>
-                {appLoading ? (
-                  <PulseLoader color={'#fff'} size={10} />
-                ) : (
-                  <button
-                    type='submit'
-                    className='bg-blue-500 flex justify-center items-center hover:bg-blue-700 text-white font-bold py-2 px-4 rounded disabled:bg-red-400  disabled:cursor-not-allowed'
-                    disabled={withdraw && withdraw.status === 'approved'}
-                  >
-                    {withdraw && withdraw.status === 'PENDING'
-                      ? 'Confirm'
-                      : 'Approved'}
-                  </button>
-                )}
-              </div>
             </form>
           </div>
         </div>

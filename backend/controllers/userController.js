@@ -7,6 +7,10 @@ const sendToken = require('../utils/jwtToken');
 const createTransaction = require('../utils/txn');
 const Placement = require('../models/PlacementModel');
 
+const sid = 'AC5c2f2adb484103b7fd382b6f7918a46b';
+const auth_token = 'eaf00da86646f27f8c9ad7def35feadd';
+const client = require('twilio')(sid, auth_token);
+
 const seedUsers = [
   {
     userName: 'admin',
@@ -45,6 +49,25 @@ const seedUsers = [
     referCode: '01843634929',
   },
 ];
+
+// test twilio api
+exports.testTwilio = catchAsyncErrors(async (req, res, next) => {
+  const message = await client.messages
+    .create({
+      body: 'This is a test message',
+      to: '+8801686252092',
+      from: '+13253264560',
+    })
+    .then((message) => {
+      console.log(message.sid);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  res.status(200).json({
+    message: 'Message sent successfully',
+  });
+});
 
 // seed user
 exports.seedUser = catchAsyncErrors(async (req, res, next) => {

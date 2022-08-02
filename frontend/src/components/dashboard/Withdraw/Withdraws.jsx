@@ -1,8 +1,10 @@
 import { default as React, useEffect } from 'react';
 import Moment from 'react-moment';
 import { useDispatch, useSelector } from 'react-redux';
+import { NavLink } from 'react-router-dom';
+import { RingLoader } from 'react-spinners';
 import { getUserWithdraws } from '../../../redux/withdraw/withdrawSlice';
-import Table, { SelectColumnFilter, StatusPill } from '../../../table/Table'; // new
+import Table, { SelectColumnFilter } from '../../../table/Table'; // new
 import DashboardLayout from '../../layouts/DashboardLayout';
 
 function Withdraws() {
@@ -50,9 +52,37 @@ function Withdraws() {
       {
         Header: 'Status',
         accessor: 'status',
-        Cell: StatusPill,
+
         Filter: SelectColumnFilter,
         filter: 'includes',
+        Cell: ({ value }) => {
+          return (
+            <div
+              className={` capitalize ${
+                value === 'cancelled' ? 'text-red-500' : 'text-gray-700'
+              }`}
+            >
+              <small>{value}</small>
+            </div>
+          );
+        },
+      },
+      {
+        Header: 'Action',
+        accessor: '_id',
+        Cell: ({ value }) => {
+          return (
+            <div className='flex justify-center space-x-2'>
+              <NavLink
+                to={`/withdraw/edit/${value}`}
+                onClick={() => console.log(value)}
+                className='bg-blue-500 hover:bg-blue-700 text-white text-sm font-semibold py-1 px-2 rounded'
+              >
+                View
+              </NavLink>
+            </div>
+          );
+        },
       },
     ],
     []
@@ -65,14 +95,17 @@ function Withdraws() {
     <DashboardLayout>
       {isLoadingData ? (
         <div>
-          {' '}
-          <h1>Hello</h1>
+          <div className='flex items-center justify-center w-full h-screen'>
+            <RingLoader color={'#36D7B7'} size={100} />
+          </div>
         </div>
       ) : (
         <div className='min-h-screen bg-gray-100 text-gray-900'>
           <main className='max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-4'>
             <div className=''>
-              <h1 className='text-xl font-semibold'>Withdraws = ❤</h1>
+              <h1 className='text-xl font-semibold'>
+                Withdraws = {data.length}
+              </h1>
             </div>
             <div className='mt-6'>
               <Table columns={columns} data={data} />
